@@ -12,10 +12,14 @@ user_name = st.text_input('사용자의 별명을 입력하세요.', max_chars=5
 
 user_input = st.text_area('사용자의 글을 입력하세요.')
 
+state = st.session_state
 
 if st.button('분석'):
     analysis_result = predict(user_input, tokenizer, model)
 
+    state.like = False
+    state.dis_like = False
+    
     if analysis_result:
         name, artist, emo = cosine_sim_output(analysis_result)
         st.success(f'{artist}의 {name}을 추천합니다!')
@@ -24,19 +28,18 @@ if st.button('분석'):
         emotion = ','.join([e for e in emo])
         st.success(f'{emotion}한 감정!')
 
-       
-        st.session_state["like"] = st.checkbox('맘에 들어요')
-        st.session_state["dis_like"] = st.checkbox('맘에 안들어요')
+        state.like = st.checkbox('맘에 들어요', value=state.like)
+        state.dis_like = st.checkbox('맘에 안들어요', value=state.dis_like)
         
         while True:
-            if st.session_state["like"] or st.session_state["dis_like"]:
+            if state.like or state.dis_like:
                 print('yes')
                 x = pd.read_csv('Feedback.csv')
                 result = pd.DataFrame({'user' : [user_name], 
-                                 'score' : [1 if st.session_state["like"] else 0],
+                                 'score' : [1 if state.like else 0],
                                  'music' : [name],
                                  'artist' : [artist]})
-                x = x.append(result, ignore_index=True)
+                x = pd.concat([x, result], ignore_index=True)
                 x.to_csv('Feedback.csv', index=False)
                 st.success(f'다시 하시고 싶으시면 checkbox를 해제해주세요!')
                 break
