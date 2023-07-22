@@ -3,8 +3,7 @@ import pandas as pd
 import numpy as np 
 import os
 from test_pipeline import load_model, predict
-from model import cosine_sim_output, manhattan_dis_output
-from IPython.display import display
+from model import cosine_sim_output
 from youtube import load_youtube
 
 tokenizer, model = load_model()
