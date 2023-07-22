@@ -9,7 +9,8 @@ import pickle
 def load_model():
     with open("./tokenizer.pkl", "rb") as f:
         tokenizer = pickle.load(f)
-    model = ElectraForMultiLabelClassification.from_pretrained("monologg/koelectra-base-v3-goemotions")
+    model_path = "./Model"
+    model = ElectraForMultiLabelClassification.from_pretrained(model_path)
     return tokenizer, model
 
 def predict(text, tokenizer, model):
