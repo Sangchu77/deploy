@@ -7,7 +7,7 @@ import numpy as np
 import pickle
 
 def load_model():
-    with open("tokenizer.pkl", "rb") as f:
+    with open("./tokenizer.pkl", "rb") as f:
         tokenizer = pickle.load(f)
     model = ElectraForMultiLabelClassification.from_pretrained("monologg/koelectra-base-v3-goemotions")
     return tokenizer, model
