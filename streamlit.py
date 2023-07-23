@@ -30,7 +30,7 @@ if st.button('분석'):
         
             st.success(f'{artist}의 {name}을 추천합니다!')
             video_sd = load_youtube(artist, name)
-            st.success(st.video(video_sd))
+            st.video(video_sd)
         #emotion = ','.join([e for e in emo])
         #st.success(f'{emotion}의 감정!')
       
