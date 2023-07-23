@@ -3,9 +3,10 @@ from transformers import ElectraTokenizer
 from model import ElectraForMultiLabelClassification
 from pprint import pprint
 import torch
-import numpy as np
 import pickle
+import streamlit as st
 
+@st.cache
 def load_model():
     with open("./tokenizer.pkl", "rb") as f:
         tokenizer = pickle.load(f)
