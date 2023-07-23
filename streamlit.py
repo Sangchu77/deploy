@@ -12,15 +12,21 @@ st.title('음악 추천 서비스')
 
 user_input = st.text_area('사용자의 글을 입력하세요.')
 
-if st.button('분석'):
-    analysis_result = predict(user_input, tokenizer, model)
+if 'analysis_result' not in st.session_state:
+   st.session_state['final_dataframe']= []
 
-    if analysis_result:
-        music_result = cosine_sim_output(analysis_result)
+if 'music_result' not in st.session_state:
+    st.session_state['music_result'] = pd.DataFrame()
+
+if st.button('분석'):
+    st.session_state['final_dataframe'] = predict(user_input, tokenizer, model)
+
+    if st.session_state['final_dataframe']:
+        st.session_state['music_result'] = cosine_sim_output(st.session_state['final_dataframe'])
 
         for i in range(3):
-            artist = music_result.iloc[i]['artist']
-            name = music_result.iloc[i]['title']
+            artist = st.session_state['music_result'].iloc[i]['artist']
+            name = st.session_state['music_result'].iloc[i]['title']
         
             st.success(f'{artist}의 {name}을 추천합니다!')
             video_sd = load_youtube(artist, name)
