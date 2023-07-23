@@ -29,8 +29,7 @@ if st.button('분석'):
             name = st.session_state['music_result'].iloc[i]['title']
         
             st.success(f'{artist}의 {name}을 추천합니다!')
-            video_sd = load_youtube(artist, name)
-            st.video(video_sd)
+            st.video(load_youtube(artist, name))
         #emotion = ','.join([e for e in emo])
         #st.success(f'{emotion}의 감정!')
       
