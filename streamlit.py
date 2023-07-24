@@ -24,14 +24,20 @@ if st.button('분석'):
     if st.session_state['final_dataframe']:
         st.session_state['music_result'] = cosine_sim_output(st.session_state['final_dataframe'])
 
+        emo = []
+        for k, j in enumerate(st.session_state['music_result'].iloc[0][3::]):
+            if j > 0.5:
+                x = st.session_state['music_result'].columns[k+3]
+                emo.append(x)
+        emotion = ','.join([e for e in emo])
+        st.success(f'{emotion}의 감정!')
+
         for i in range(3):
             artist = st.session_state['music_result'].iloc[i]['artist']
             name = st.session_state['music_result'].iloc[i]['title']
         
             st.success(f'{artist}의 {name}을 추천합니다!')
             st.video(load_youtube(artist, name))
-        #emotion = ','.join([e for e in emo])
-        #st.success(f'{emotion}의 감정!')
       
     else:
         st.warning('분석 결과를 찾을 수 없습니다.')
