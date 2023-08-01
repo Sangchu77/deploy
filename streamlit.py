@@ -8,9 +8,9 @@ from youtube import load_youtube
 
 tokenizer, model = load_model()
 
-st.title('음악 추천 서비스')
+st.title('감정 기반 음악 추천 서비스')
 
-user_input = st.text_area('사용자의 글을 입력하세요.')
+user_input = st.text_area('사용자의 글을 입력하세요.(감정이 담겨 있으면 더 좋아요!)')
 
 if 'analysis_result' not in st.session_state:
    st.session_state['final_dataframe']= []
@@ -30,7 +30,10 @@ if st.button('분석'):
                 x = st.session_state['music_result'].columns[k+3]
                 emo.append(x)
         emotion = ','.join([e for e in emo])
-        st.success(f'{emotion}의 감정!')
+        if emo:
+            st.success(f'{emotion}의 감정!')
+        else:
+            st.success(f'이렇다 할 감정이 없어요')
 
         for i in range(3):
             artist = st.session_state['music_result'].iloc[i]['artist']
